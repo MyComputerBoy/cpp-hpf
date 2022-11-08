@@ -1,3 +1,6 @@
+//Cringe, super inferior c++ implementation of the superior python implementation,
+//I only do this for the speed, I don't want c++ anymore
+
 #include <iostream>
 #include <cmath>
 #include <sstream>
@@ -208,7 +211,7 @@ public:
 	};
 
 	//Bitwise and
-	random_access_list __and__(random_access_list const& obj) {
+	random_access_list __and__(random_access_list obj) {
 
 		random_access_list a = *this;
 		random_access_list b = obj;
@@ -290,19 +293,100 @@ public:
 
 private:
 
-	random_access_list Allign(random_access_list a, random_access_list b, bool Inverse = false, int offset = 0) {
+	//Semi-redundant LengthAppend(self, length = 1, a = 0):
+	void LengthAppend(int length = 1, unsigned long long int a = 0) {
 
+		for (int i = 0; i < length; i++) {
+
+			data.push_back(a);
+
+		};
+
+	}
+
+	//Semi-redundant InverseLengthAppend(self, length = 1, a = 0):
+	void InverseLengthAppend(int length = 1, unsigned long long int a = 0) {
+
+		for (int i = 0; i < length; i++) {
+
+			data.push_front(a);
+
+		};
+
+	}
+
+	//Why can't I do this like in python?
+	list<random_access_list> Allign(random_access_list a, random_access_list b, bool Inverse = false, int offset = 0) {
+
+		//Boring setup
+		list<random_access_list> out = list<random_access_list>();
+		random_access_list _new_self = a;
+		random_access_list _new_other = b;
+		int _self_len = _new_self.size();
+		int _other_len = _new_other.size();
+
+		//Handle Inverse
+		if (Inverse == true) {
+
+			if (_self_len < _other_len) { _new_self.InverseLengthAppend(_other_len - _self_len); }
+			else {
+				_new_other.InverseLengthAppend((_self_len - _other_len) - offset);
+				_new_other.LengthAppend(offset);
+			};
+
+			//Cringe c++ rhetorical 'must'
+			out.push_back(_new_self);
+			out.push_back(_new_other);
+
+			return out;
+
+		};
+
+		if (_self_len < _other_len) {
+
+			_new_self.LengthAppend(_other_len - _self_len);
+
+		}
+		else {
+
+			_new_other.LengthAppend((_self_len - _other_len) - offset);
+			_new_other.InverseLengthAppend(offset);
+
+		};
+
+		//Why can't I do this like in python?
+		out.push_back(_new_self);
+		out.push_back(_new_other);
+
+		return out;
+
+	};
+	//DivAllign(self, other, offset=0):
+	list<random_access_list> DivAllign(random_access_list a, random_access_list b, int offset = 0) {
+
+		//Boring setup
+		list<random_access_list> out = list<random_access_list>();
+		random_access_list _new_self = a;
+		random_access_list _new_other = b;
 		int _self_len = a.size();
 		int _other_len = b.size();
 
-		if (Inverse == true) {
+		//Handle length difference
+		if (_self_len < _other_len) { _new_self.InverseLengthAppend(_other_len - _self_len); } 
+		else { _new_other.InverseLengthAppend(_self_len - _other_len); }
 
-			if (_self_len < _other_len){}
+		//Handle offset
+		_new_self.LengthAppend(offset);
+		_new_other.LengthAppend(offset);
 
-		}
+		//Imagine, inferior c++ 'requires' this to superior python, there you can just, do what you need to do
+		out.push_back(_new_self);
+		out.push_back(_new_other);
 
+		return out;
+		
 	};
-
+	
 };
 
 //Arbitrarily sized signed integer
