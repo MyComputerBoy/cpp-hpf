@@ -7,6 +7,7 @@
 #include <list>
 #include <iterator>
 #include <limits.h>
+#include <math.h>
 using namespace std;
 
 //Sixty-Four bit signed Base Unit
@@ -34,6 +35,8 @@ public:
 
 	//__init__(self, mant, co, sign, ci):
 	sfbu(unsigned long long int a=0, bool b=false, bool c=true, bool d=false) {
+
+		cout << "--Initializing Sixty-four Bit Signed Unit--\n";
 
 		mant = a;
 		co = b;
@@ -107,6 +110,16 @@ public:
 
 	}
 
+	/*list<unsigned long long int> shift(sfbu a, unsigned long long int shifts, bool direction) {
+
+		list<unsigned long long int> q = list<unsigned long long int>{ 0, 0 };
+
+
+
+		return q;
+
+	};*/
+
 	//Propper python gang
 	//def __add__(self, other, ci=False):
 	sfbu __add__(sfbu const& a=sfbu(), sfbu const& b = sfbu(), bool ci = false) {
@@ -172,6 +185,15 @@ public:
 
 	}
 
+	signed long long int LimitedToInt() {
+
+		signed long long int out = mant;
+
+		if (sign) { return out; }
+		else { return -out; }
+
+	}
+
 	//__str__(self):
 	string ToString() {
 
@@ -205,6 +227,8 @@ public:
 
 	//__init__(data):
 	random_access_list(list<sfbu> a = list<sfbu>()) {
+
+		cout << "--Initializing Random Access List--\n";
 
 		data = a;
 
@@ -286,6 +310,16 @@ public:
 		data.pop_back();
 
 		return out;
+
+	}
+
+	sfbu shift(sfbu a, unsigned long long int shifts, bool direction) {
+
+		sfbu q;
+
+
+
+		return q;
 
 	}
 
@@ -400,6 +434,8 @@ public:
 	//__init__(self, mant, exp, sign, co, is_zero):
 	Binary(random_access_list a = random_access_list(), random_access_list b = random_access_list(), bool c = true, bool d = false, bool e = true, bool f = false) {
 
+		cout << "--Initializing Binary--\n";
+
 		mant = a;
 		exp = b;
 		sign = c;
@@ -414,6 +450,16 @@ public:
 
 	//Boring getter
 	random_access_list get_mant() { return mant; };
+
+	Binary shift(Binary a, unsigned long long int shifts, bool direction) {
+
+		Binary q;
+
+		
+
+		return q;
+
+	};
 
 	Binary operator + (Binary const& obj) {
 
@@ -457,6 +503,40 @@ public:
 		return out;
 
 	};
+
+	Binary __float_add__(Binary a, Binary b, bool ci = false) {
+
+		Binary q;
+
+
+
+		return q;
+
+	};
+
+	int GetLength() { return mant.size(); };
+
+	signed long long int ToInt(int depth=75) {
+
+		signed long long int out = 0;
+		auto mant_iter = mant.data.begin();
+
+		for (int i = 0; i < depth; i++) {
+
+			std::advance(mant_iter, 1);
+			out += pow(2, i) * (*mant_iter).LimitedToInt();
+
+		};
+
+		return out;
+
+	}
+
+	//string __str__() {
+
+
+
+	//}
 
 private:
 
@@ -538,4 +618,8 @@ private:
 
 int main() {
 
-}
+	Binary a = Binary();
+
+	cout << "\n----------------------------------\nC++: High Precision Floating point\n";
+
+};
