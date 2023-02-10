@@ -110,16 +110,6 @@ public:
 
 	}
 
-	/*list<unsigned long long int> shift(sfbu a, unsigned long long int shifts, bool direction) {
-
-		list<unsigned long long int> q = list<unsigned long long int>{ 0, 0 };
-
-
-
-		return q;
-
-	};*/
-
 	//Propper python gang
 	//def __add__(self, other, ci=False):
 	sfbu __add__(sfbu const& a=sfbu(), sfbu const& b = sfbu(), bool ci = false) {
@@ -235,15 +225,90 @@ public:
 	};
 
 	//Bitwise and
-	random_access_list __and__(random_access_list obj) {
+	random_access_list __and__(random_access_list a = random_access_list(), random_access_list b = random_access_list()) {
 
-		random_access_list a = *this;
-		random_access_list b = obj;
+		random_access_list ral;
+		random_access_list out;
+		list<random_access_list> Alligned = ral.Allign(a, b);
+
+		for (int i = 0; i < Alligned.size(); i++) {
+
+			out.push_front(a.get(i).__and__(b.get(i)));
+
+		};
+
+		return out;
+
+	};
+	//Bitwise or
+	random_access_list __or__(random_access_list a = random_access_list(), random_access_list b = random_access_list()) {
+
+		random_access_list ral;
+		random_access_list out;
+		list<random_access_list> Alligned = ral.Allign(a, b);
+
+		for (int i = 0; i < Alligned.size(); i++) {
+
+			out.push_front(a.get(i).__or__(b.get(i)));
+
+		};
+
+		return out;
+
+	};
+	//Bitwise xor
+	random_access_list __xor__(random_access_list a = random_access_list(), random_access_list b = random_access_list()) {
+
+		random_access_list ral;
+		random_access_list out;
+		list<random_access_list> Alligned = ral.Allign(a, b);
+
+		for (int i = 0; i < Alligned.size(); i++) {
+
+			out.push_front(a.get(i).__xor__(b.get(i)));
+
+		};
+
+		return out;
+
+	};
+	//Bitwise not
+	random_access_list __not__(random_access_list a = random_access_list()) {
+
 		random_access_list out;
 
+		for (int i = 0; i < a.size(); i++) {
+
+			out.push_front(a.get(i).__not__());
+
+		};
+
+		return out;
+
+	};
+	random_access_list __shift__(random_access_list a = random_access_list(), int shifts = 0, bool direction = false) {
+
+		random_access_list out = random_access_list();
+
+		//Shift down | foor(div 2)
+		if (direction == false) {
+
+			for (int i = 0; i < a.size(); i++) {
 
 
-	}
+
+			};
+
+		}//Shift up | mul 2
+		else {
+
+
+
+		}
+
+		return out;
+
+	};
 
 	//Boring getter
 	sfbu get(int index=0) {
@@ -313,7 +378,7 @@ public:
 
 	}
 
-	sfbu shift(sfbu a, unsigned long long int shifts, bool direction) {
+	/*sfbu shift(sfbu a, unsigned long long int shifts, bool direction) {
 
 		sfbu q;
 
@@ -321,7 +386,7 @@ public:
 
 		return q;
 
-	}
+	}*/
 
 	int size() { return data.size(); };
 
@@ -350,7 +415,7 @@ private:
 	}
 
 	//Why can't I do this like in python?
-	list<random_access_list> Allign(random_access_list a, random_access_list b, bool Inverse = false, int offset = 0) {
+	list<random_access_list> Allign(random_access_list a=random_access_list(), random_access_list b=random_access_list(), bool Inverse = false, int offset = 0) {
 
 		//Boring setup
 		list<random_access_list> out = list<random_access_list>();
