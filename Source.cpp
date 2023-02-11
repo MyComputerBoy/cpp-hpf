@@ -11,7 +11,7 @@
 using namespace std;
 
 //Sixty-Four bit signed Base Unit
-class sfbu {
+class SixtyFourBitUnit {
 
 private:
 	//Detect integer overflow from addition
@@ -29,16 +29,16 @@ private:
 
 public:
 	
-	//mant is 64 bit unsigned integer, co, sign, ci is bool
-	unsigned long long int mant;
+	//Mantissa is 64 bit unsigned integer, co, sign, ci is bool
+	unsigned long long int Mantissa;
 	bool co, sign, ci;
 
-	//__init__(self, mant, co, sign, ci):
-	sfbu(unsigned long long int a=0, bool b=false, bool c=true, bool d=false) {
+	//__init__(self, Mantissa, co, sign, ci):
+	SixtyFourBitUnit(unsigned long long int a=0, bool b=false, bool c=true, bool d=false) {
 
 		cout << "--Initializing Sixty-four Bit Signed Unit--\n";
 
-		mant = a;
+		Mantissa = a;
 		co = b;
 		sign = c;
 		ci = d;
@@ -46,138 +46,172 @@ public:
 	};
 	
 	//Bitwise and
-	sfbu __and__(sfbu const& obj) {
+	SixtyFourBitUnit __and__(SixtyFourBitUnit const& obj) {
 
-		sfbu a = *this;
-		sfbu b = obj;
-		sfbu out;
+		SixtyFourBitUnit a = *this;
+		SixtyFourBitUnit b = obj;
+		SixtyFourBitUnit out;
 
-		out = a.get_mant() & b.get_mant();
+		out = a.get_mantissa() & b.get_mantissa();
 
 		return out;
 
 	};
 
 	//Bitwise or
-	sfbu __or__(sfbu const& obj) {
+	SixtyFourBitUnit __or__(SixtyFourBitUnit const& obj) {
 
-		sfbu a = *this;
-		sfbu b = obj;
-		sfbu out;
+		SixtyFourBitUnit a = *this;
+		SixtyFourBitUnit b = obj;
+		SixtyFourBitUnit out;
 
-		out = a.get_mant() | b.get_mant();
+		out = a.get_mantissa() | b.get_mantissa();
 
 		return out;
 
 	};
 
 	//Bitwise xor
-	sfbu __xor__(sfbu const& obj) {
+	SixtyFourBitUnit __xor__(SixtyFourBitUnit const& obj) {
 
-		sfbu a = *this;
-		sfbu b = obj;
-		sfbu out;
+		SixtyFourBitUnit a = *this;
+		SixtyFourBitUnit b = obj;
+		SixtyFourBitUnit out;
 
-		out = a.get_mant() ^ b.get_mant();
+		out = a.get_mantissa() ^ b.get_mantissa();
 
 		return out;
 
 	};
 
 	//Bitwise not
-	sfbu __not__() {
+	SixtyFourBitUnit __not__() {
 
-		sfbu a = *this;
-		sfbu out;
+		SixtyFourBitUnit a = *this;
+		SixtyFourBitUnit out;
 
-		out = ~a.get_mant();
+		out = ~a.get_mantissa();
 
 		return out;
 
 	};
 
 	//Boring setter
-	void set_mant(unsigned long long int a = 0) {
+	void set_mantissa(unsigned long long int a = 0) {
 
-		mant = a;
+		Mantissa = a;
 
 	};
 
 	//Boring getter
-	unsigned long long int get_mant() {
+	unsigned long long int get_mantissa() {
 
-		return mant;
+		return Mantissa;
 
 	}
 
 	//Propper python gang
 	//def __add__(self, other, ci=False):
-	sfbu __add__(sfbu const& a=sfbu(), sfbu const& b = sfbu(), bool ci = false) {
+	SixtyFourBitUnit __add__(SixtyFourBitUnit const& a=SixtyFourBitUnit(), SixtyFourBitUnit const& b = SixtyFourBitUnit(), bool ci = false) {
 
 		//Boring setup
-		sfbu out;
+		SixtyFourBitUnit out;
 
 		//Handle carry out
-		out.co = detect_overflow(a.mant, b.mant, ci);
+		out.co = detect_overflow(a.Mantissa, b.Mantissa, ci);
 
 		//Compute addition
-		out.mant = a.mant + b.mant;
+		out.Mantissa = a.Mantissa + b.Mantissa;
 
 		return out;
 
 	}
 
 	//def __sub__(self, other, ci=True):
-	sfbu __sub__(sfbu const& a = sfbu(), sfbu const& b = sfbu(), bool ci = true) {
+	SixtyFourBitUnit __sub__(SixtyFourBitUnit const& a = SixtyFourBitUnit(), SixtyFourBitUnit const& b = SixtyFourBitUnit(), bool ci = true) {
 
 		//Boring setup
-		sfbu out;
+		SixtyFourBitUnit out;
 
 		//Handle carry out
-		out.co = detect_overflow(a.mant, ~b.mant, ci);
+		out.co = detect_overflow(a.Mantissa, ~b.Mantissa, ci);
 
 		//Compute subtraction
-		out.mant = a.mant - b.mant;
+		out.Mantissa = a.Mantissa - b.Mantissa;
 
 		return out;
 	}
 
 	//Cringe c++
 	//__add__(self, other, ci=False):
-	sfbu operator + (sfbu const& obj) {
+	SixtyFourBitUnit operator + (SixtyFourBitUnit const& obj) {
 		
 		//Boring setup
-		sfbu res;
+		SixtyFourBitUnit res;
 
 		//Handle carry out
-		res.co = detect_overflow(mant, obj.mant, ci);
+		res.co = detect_overflow(Mantissa, obj.Mantissa, ci);
 
 		//Compute addition
-		res.mant = mant + obj.mant;
+		res.Mantissa = Mantissa + obj.Mantissa;
 
 		return res;
 
 	};
 
 	//__sub__(self, other, ci=True):
-	sfbu operator - (sfbu const& obj) {
+	SixtyFourBitUnit operator - (SixtyFourBitUnit const& obj) {
 
 		//Boring setup
-		sfbu res;
+		SixtyFourBitUnit res;
 
 		//Handle carry out
-		res.co = detect_overflow(mant, ~obj.mant, not ci);
+		res.co = detect_overflow(Mantissa, ~obj.Mantissa, not ci);
 
 		//Compute subtraction
-		res.mant = mant - obj.mant;
+		res.Mantissa = Mantissa - obj.Mantissa;
 
 		return res;
 
 	}
 
+	//Get variable length bits from mantissa with an offset
+	unsigned long long int GetOffsetBitsFromMantissa(unsigned long long int offset = 0, unsigned long long  int length = 1, bool direction = false) {
+
+		//Boring setup
+		unsigned long long int out = 0;
+		unsigned long long int mask;
+		unsigned long long int temp_bit;
+
+		//Extracting bits from mantissa
+		for (int i = 0; i < length; i++) {
+
+			//If direction is false read right to left and write right to left
+			if (direction == false) {
+
+				mask = static_cast<unsigned long long>(1) << (offset + i);
+				temp_bit = mask >> (offset + i);
+
+			}
+			else { //If direction is true read left to left and write right to left
+
+				mask = static_cast<unsigned long long>(1) << (offset - i);
+				temp_bit = mask >> (offset - i);
+
+			};
+
+			temp_bit = temp_bit << i;
+			out += temp_bit;
+
+		};
+
+		return out;
+
+	};
+
 	signed long long int LimitedToInt() {
 
-		signed long long int out = mant;
+		signed long long int out = Mantissa;
 
 		if (sign) { return out; }
 		else { return -out; }
@@ -187,9 +221,6 @@ public:
 	//__str__(self):
 	string ToString() {
 
-		//Boring setup
-		unsigned long long int working_mant = mant;
-
 		stringstream work_out;
 		string out, sign_str;
 
@@ -197,8 +228,8 @@ public:
 		if (sign == true) { sign_str = "+"; }
 		else { sign_str = "-"; }
 		
-		//Convert mant to string
-		work_out << sign_str << mant;
+		//Convert mantissa to string
+		work_out << sign_str << Mantissa;
 
 		//Convert to std::string
 		out = work_out.str();
@@ -213,10 +244,10 @@ class random_access_list {
 
 public:
 
-	list<sfbu> data;
+	list<SixtyFourBitUnit> data;
 
-	//__init__(data):
-	random_access_list(list<sfbu> a = list<sfbu>()) {
+	//def __init__(self, data):
+	random_access_list(list<SixtyFourBitUnit> a = list<SixtyFourBitUnit>()) {
 
 		cout << "--Initializing Random Access List--\n";
 
@@ -290,7 +321,7 @@ public:
 
 		random_access_list out = random_access_list();
 
-		//Shift down | foor(div 2)
+		//Shift down | floor(div 2)
 		if (direction == false) {
 
 			for (int i = 0; i < a.size(); i++) {
@@ -311,10 +342,10 @@ public:
 	};
 
 	//Boring getter
-	sfbu get(int index=0) {
+	SixtyFourBitUnit get(int index=0) {
 
 		//Boring setup
-		list<sfbu>::iterator it = data.begin();
+		list<SixtyFourBitUnit>::iterator it = data.begin();
 
 		//Hack for getting pseudo-random access list
 		for (int i = 0; i < index; i++) {  it++; }
@@ -324,10 +355,10 @@ public:
 	}
 
 	//Boring setter
-	void set(int index = 0, sfbu a = sfbu()) {
+	void set(int index = 0, SixtyFourBitUnit a = SixtyFourBitUnit()) {
 
 		//Boring setup
-		list<sfbu>::iterator it = data.begin();
+		list<SixtyFourBitUnit>::iterator it = data.begin();
 
 		//Hack for getting pseudo-random access list
 		for (int i = 0; i < index; i++) { it++; }
@@ -340,9 +371,9 @@ public:
 	void set_ci(int index = 0, bool a = false) {
 
 		//Annoyingly you have to get object
-		sfbu temp = get(index);
+		SixtyFourBitUnit temp = get(index);
 
-		//Then set paramter
+		//Then set parameter
 		temp.ci = a;
 
 		//Then apply to the actual object
@@ -351,16 +382,16 @@ public:
 	};
 
 	//Pythonic append(0, a)
-	void push_back(sfbu a = sfbu()) { data.push_back(a); };
+	void push_back(SixtyFourBitUnit a = SixtyFourBitUnit()) { data.push_back(a); };
 
 	//Pythonic append(-1, a)
-	void push_front(sfbu a = sfbu()) { data.push_front(a); };
+	void push_front(SixtyFourBitUnit a = SixtyFourBitUnit()) { data.push_front(a); };
 
 	//Pythonic pop(0)
-	sfbu pop_front() {
+	SixtyFourBitUnit pop_front() {
 
 		//Hack for pythonic pop(0)
-		sfbu out = data.front();
+		SixtyFourBitUnit out = data.front();
 		data.pop_front();
 
 		return out;
@@ -368,32 +399,36 @@ public:
 	};
 
 	//Python pop(-1)
-	sfbu pop_back() {
+	SixtyFourBitUnit pop_back() {
 
 		//Hack for pythonic pop(-1)
-		sfbu out = data.back();
+		SixtyFourBitUnit out = data.back();
 		data.pop_back();
 
 		return out;
 
 	}
 
-	/*sfbu shift(sfbu a, unsigned long long int shifts, bool direction) {
+	string ToTring() {
 
-		sfbu q;
+		string out = "";
 
+		for (int i = 0; i < this->size(); i++) {
 
+			out += this->get(i).ToString();
 
-		return q;
+		}
 
-	}*/
+		return out;
 
-	int size() { return data.size(); };
+	}
+
+	size_t size() { return data.size(); };
 
 private:
 
 	//Semi-redundant LengthAppend(self, length = 1, a = 0):
-	void LengthAppend(int length = 1, unsigned long long int a = 0) {
+	void LengthAppend(size_t length = 1, unsigned long long int a = 0) {
 
 		for (int i = 0; i < length; i++) {
 
@@ -404,9 +439,9 @@ private:
 	}
 
 	//Semi-redundant InverseLengthAppend(self, length = 1, a = 0):
-	void InverseLengthAppend(int length = 1, unsigned long long int a = 0) {
+	void InverseLengthAppend(size_t length = 1, unsigned long long int a = 0) {
 
-		for (int i = 0; i < length; i++) {
+		for (size_t i = 0; i < length; i++) {
 
 			data.push_front(a);
 
@@ -415,14 +450,14 @@ private:
 	}
 
 	//Why can't I do this like in python?
-	list<random_access_list> Allign(random_access_list a=random_access_list(), random_access_list b=random_access_list(), bool Inverse = false, int offset = 0) {
+	list<random_access_list> Allign(random_access_list a=random_access_list(), random_access_list b=random_access_list(), bool Inverse = false, size_t offset = 0) {
 
 		//Boring setup
 		list<random_access_list> out = list<random_access_list>();
 		random_access_list _new_self = a;
 		random_access_list _new_other = b;
-		int _self_len = _new_self.size();
-		int _other_len = _new_other.size();
+		size_t _self_len = _new_self.size();
+		size_t _other_len = _new_other.size();
 
 		//Handle Inverse
 		if (Inverse == true) {
@@ -461,14 +496,14 @@ private:
 
 	};
 	//DivAllign(self, other, offset=0):
-	list<random_access_list> DivAllign(random_access_list a, random_access_list b, int offset = 0) {
+	list<random_access_list> DivAllign(random_access_list a, random_access_list b, size_t offset = 0) {
 
 		//Boring setup
 		list<random_access_list> out = list<random_access_list>();
 		random_access_list _new_self = a;
 		random_access_list _new_other = b;
-		int _self_len = a.size();
-		int _other_len = b.size();
+		size_t _self_len = a.size();
+		size_t _other_len = b.size();
 
 		//Handle length difference
 		if (_self_len < _other_len) { _new_self.InverseLengthAppend(_other_len - _self_len); } 
@@ -488,37 +523,39 @@ private:
 	
 };
 
-//Arbitrarily sized signed integer
-class Binary {
+//High Precision Float -> Proprietary format for arbitrarily high precision floating point numbers (Cringe inferior c++ implementation to the superior python implementation)
+class hpf {
 
 public:
 
-	random_access_list mant, exp;
-	bool sign, co, is_zero, ci;
+	//Arbitrarily long mantissa and exponent, based off of the idea of the ieee 754 floating point standard, but expanded with arbitrarily high precision and large numbers
+	random_access_list Mantissa, Exponent;
+	bool sign, CarryOut, is_zero, CarryIn;
 
-	//__init__(self, mant, exp, sign, co, is_zero):
-	Binary(random_access_list a = random_access_list(), random_access_list b = random_access_list(), bool c = true, bool d = false, bool e = true, bool f = false) {
+	//__init__(self, mantissa, exponent, sign, co, is_zero):
+	hpf(random_access_list a = random_access_list(), random_access_list b = random_access_list(), bool c = true, bool d = false, bool e = true, bool f = false) {
 
 		cout << "--Initializing Binary--\n";
 
-		mant = a;
-		exp = b;
+		Mantissa = a;
+		Exponent = b;
 		sign = c;
-		co = d;
+		CarryOut = d;
 		is_zero = e;
-		ci = f;
+		CarryIn = f;
 
 	};
 
 	//Boring setter
-	void set_mant(list<sfbu> a) { mant = a; };
+	void set_mant(list<SixtyFourBitUnit> a) { Mantissa = a; };
 
 	//Boring getter
-	random_access_list get_mant() { return mant; };
+	random_access_list get_mantissa() { return Mantissa; };
 
-	Binary shift(Binary a, unsigned long long int shifts, bool direction) {
+	//TODO
+	hpf shift(hpf a, unsigned long long int shifts, bool direction) {
 
-		Binary q;
+		hpf q;
 
 		
 
@@ -526,10 +563,10 @@ public:
 
 	};
 
-	Binary operator + (Binary const& obj) {
+	hpf operator + (hpf const& obj) {
 
-		Binary a = *this;
-		Binary b = obj;
+		hpf a = *this;
+		hpf b = obj;
 
 		if (sign == true) {
 
@@ -543,11 +580,11 @@ public:
 
 	};
 
-	Binary operator - (Binary const& obj) {
+	hpf operator - (hpf const& obj) {
 
-		Binary a = *this;
-		Binary b = obj;
-		Binary out;
+		hpf a = *this;
+		hpf b = obj;
+		hpf out;
 
 		if (sign == true) {
 
@@ -569,9 +606,9 @@ public:
 
 	};
 
-	Binary __float_add__(Binary a, Binary b, bool ci = false) {
+	hpf __float_add__(hpf a, hpf b, bool ci = false) {
 
-		Binary q;
+		hpf q;
 
 
 
@@ -579,62 +616,31 @@ public:
 
 	};
 
-	int GetLength() { return mant.size(); };
+	size_t GetLength() { return Mantissa.size(); };
 
-	signed long long int ToInt(int depth=75) {
+	string __str__() {
 
-		signed long long int out = 0;
-		auto mant_iter = mant.data.begin();
+		string out;
+		signed long long int exp_val;
+		unsigned long long int bits;
 
-		for (int i = 0; i < depth; i++) {
+		//Handle zero
+		if (is_zero == true) { return "0"; }
 
-			std::advance(mant_iter, 1);
-			out += pow(2, i) * (*mant_iter).LimitedToInt();
+		//Handle sign
+		if (sign == false) { out = "-"; }
+		else { out = "+"; }
 
-		};
+		//Handle large numbers, default to "infinity"
+		if (Exponent.size() > 1 && Exponent.get(1).LimitedToInt() > 0) { return out + "infinity"; }
 
-		return out;
+		//Handle Numbers within 64 bits
+		if (Exponent.size() == 1 && Exponent.get(0).LimitedToInt() < 64) {
 
-	}
+			exp_val = Exponent.get(0).LimitedToInt();
 
-	//string __str__() {
-
-
-
-	//}
-
-private:
-
-	//Propper python gang
-	//def __pure_add__(self, other, ci=False):
-	Binary __pure_add__(Binary const& a = Binary(), Binary const& b = Binary(), bool ci = false) {
-
-		//Boring setup
-		Binary out;
-		Binary ta = a;
-		Binary tb = b;
-		sfbu temp;
-		bool co = false;
-
-		//Handle is_zero
-		if (a.is_zero == true) {
-
-			if (b.is_zero == true) { return out; };
-			return b;
-
-		}
-
-		if (b.is_zero == true) { return a; };
-
-		//Set sign
-		out.sign = tb.sign;
-
-		//Compute __pure_add__():
-		for (int i = 0; i < mant.size(); i++) {
-
-			temp = ta.mant.get(i).__add__(tb.mant.get(i), ci);
-			ci = temp.co;
-			out.mant.push_back(temp);
+			bits = Mantissa.get(0).GetOffsetBitsFromMantissa(64 - exp_val, exp_val);
+			out += to_string(bits);
 
 		};
 
@@ -642,38 +648,40 @@ private:
 
 	};
 
+	string __repr__() {
+
+		string out;
+
+		if (sign == false) { out = "-"; }
+		else { out = "+"; }
+
+		out += Exponent.ToTring() + "|" + Mantissa.ToTring();
+
+		return out;
+
+	};
+
+private:
+
+	//TODO
+	//Propper python gang
+	//def __pure_add__(self, other, ci=False):
+	hpf __pure_add__(hpf a = hpf(), hpf b = hpf(), bool ci = false) {
+
+		hpf out;
+
+
+
+		return out;
+
+	};
+
 	//def __pure_sub__(self, other, ci=False):
-	Binary __pure_sub__(Binary const& a = Binary(), Binary const& b = Binary(), bool ci = true) {
+	hpf __pure_sub__(hpf a = hpf(), hpf b = hpf(), bool ci = true) {
 
-		//Boring setup
-		Binary out;
-		Binary ta = a;
-		Binary tb = b;
-		sfbu temp;
-		random_access_list exp;
-		bool co = false;
+		hpf out;
 
-		//Handle is_zero
-		if (a.is_zero == true) {
 
-			if (b.is_zero == true) { return out; };
-			return b;
-
-		}
-
-		if (b.is_zero == true) { return a; };
-		
-		//Set sign
-		out.sign = ta.sign;
-
-		//Compute __pure_sub__():
-		for (int i = 0; i < mant.size(); i++) {
-
-			temp = ta.mant.get(i).__sub__(tb.mant.get(i), ci);
-			ci = temp.co;
-			out.mant.push_back(temp);
-
-		};
 
 		return out;
 
@@ -683,8 +691,10 @@ private:
 
 int main() {
 
-	Binary a = Binary();
+	hpf a = hpf();
 
 	cout << "\n----------------------------------\nC++: High Precision Floating point\n";
+
+	return 0;
 
 };

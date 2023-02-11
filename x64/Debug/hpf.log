@@ -1,4 +1,2 @@
 ﻿  Source.cpp
-C:\Users\hatel\Documents\GitHub\cpp-hpf\Source.cpp(326,13): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\hatel\Documents\GitHub\cpp-hpf\Source.cpp(527,21): warning C4244: '+=': conversion from 'double' to '__int64', possible loss of data
-  hpf.vcxproj -> C:\Users\hatel\Documents\GitHub\cpp-hpf\x64\Debug\hpf.exe
+  hpf.vcxproj -> C:\Users\Kim Chemnitz\Documents\GitHub\cpp-hpf\x64\Debug\hpf.exe
