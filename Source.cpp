@@ -1,3 +1,4 @@
+//hpf.cpp -> proprietary high precision floating point format --OHP branch - Optimized High Performance high precision floating point format
 //Cringe, super inferior c++ implementation of the superior python implementation,
 //I only do this for the speed, I don't want c++ anymore
 
@@ -240,6 +241,7 @@ public:
 
 };
 
+//Cringe inferior c++ class for pythonic dynamic random access lists
 class random_access_list {
 
 public:
@@ -260,7 +262,7 @@ public:
 
 		random_access_list ral;
 		random_access_list out;
-		list<random_access_list> Alligned = ral.Allign(a, b);
+		list<random_access_list> Alligned = ral.Align(a, b);
 
 		for (int i = 0; i < Alligned.size(); i++) {
 
@@ -276,7 +278,7 @@ public:
 
 		random_access_list ral;
 		random_access_list out;
-		list<random_access_list> Alligned = ral.Allign(a, b);
+		list<random_access_list> Alligned = ral.Align(a, b);
 
 		for (int i = 0; i < Alligned.size(); i++) {
 
@@ -292,7 +294,7 @@ public:
 
 		random_access_list ral;
 		random_access_list out;
-		list<random_access_list> Alligned = ral.Allign(a, b);
+		list<random_access_list> Alligned = ral.Align(a, b);
 
 		for (int i = 0; i < Alligned.size(); i++) {
 
@@ -317,6 +319,8 @@ public:
 		return out;
 
 	};
+	//TODO
+	//Bitwise shift
 	random_access_list __shift__(random_access_list a = random_access_list(), int shifts = 0, bool direction = false) {
 
 		random_access_list out = random_access_list();
@@ -450,7 +454,7 @@ private:
 	}
 
 	//Why can't I do this like in python?
-	list<random_access_list> Allign(random_access_list a=random_access_list(), random_access_list b=random_access_list(), bool Inverse = false, size_t offset = 0) {
+	list<random_access_list> Align(random_access_list a=random_access_list(), random_access_list b=random_access_list(), bool Inverse = false, size_t offset = 0) {
 
 		//Boring setup
 		list<random_access_list> out = list<random_access_list>();
@@ -495,8 +499,8 @@ private:
 		return out;
 
 	};
-	//DivAllign(self, other, offset=0):
-	list<random_access_list> DivAllign(random_access_list a, random_access_list b, size_t offset = 0) {
+	//DivAlign(self, other, offset=0):
+	list<random_access_list> DivAlign(random_access_list a, random_access_list b, size_t offset = 0) {
 
 		//Boring setup
 		list<random_access_list> out = list<random_access_list>();
