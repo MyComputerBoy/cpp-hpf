@@ -262,7 +262,7 @@ public:
 
 		random_access_list ral;
 		random_access_list out;
-		list<random_access_list> Alligned = ral.Align(a, b);
+		list<random_access_list> Alligned = ral.SixtyFourBitUnitAlign(a, b);
 
 		for (int i = 0; i < Alligned.size(); i++) {
 
@@ -278,7 +278,7 @@ public:
 
 		random_access_list ral;
 		random_access_list out;
-		list<random_access_list> Alligned = ral.Align(a, b);
+		list<random_access_list> Alligned = ral.SixtyFourBitUnitAlign(a, b);
 
 		for (int i = 0; i < Alligned.size(); i++) {
 
@@ -294,7 +294,7 @@ public:
 
 		random_access_list ral;
 		random_access_list out;
-		list<random_access_list> Alligned = ral.Align(a, b);
+		list<random_access_list> Alligned = ral.SixtyFourBitUnitAlign(a, b);
 
 		for (int i = 0; i < Alligned.size(); i++) {
 
@@ -346,13 +346,13 @@ public:
 	};
 
 	//Boring getter
-	SixtyFourBitUnit get(int index=0) {
+	SixtyFourBitUnit get(size_t index=0) {
 
 		//Boring setup
 		list<SixtyFourBitUnit>::iterator it = data.begin();
 
 		//Hack for getting pseudo-random access list
-		for (int i = 0; i < index; i++) {  it++; }
+		for (size_t i = 0; i < index; i++) {  it++; }
 
 		return *it;
 
@@ -385,10 +385,10 @@ public:
 
 	};
 
-	//Pythonic append(0, a)
+	//Pythonic insert(0, a)
 	void push_back(SixtyFourBitUnit a = SixtyFourBitUnit()) { data.push_back(a); };
 
-	//Pythonic append(-1, a)
+	//Pythonic append(a)
 	void push_front(SixtyFourBitUnit a = SixtyFourBitUnit()) { data.push_front(a); };
 
 	//Pythonic pop(0)
@@ -429,6 +429,20 @@ public:
 
 	size_t size() { return data.size(); };
 
+	//TODO
+	//def __pure_add__(self, other):
+	random_access_list __pure_add__(random_access_list a = random_access_list(), random_access_list b = random_access_list(), bool ci = false) {
+
+		random_access_list ral;
+		random_access_list out;
+		list<random_access_list> aligned_inp;
+
+		aligned_inp = ral.SixtyFourBitUnitAlign(a, b);
+
+		return out;
+
+	};
+
 private:
 
 	//Semi-redundant LengthAppend(self, length = 1, a = 0):
@@ -453,8 +467,82 @@ private:
 
 	}
 
+	//Bit-precise alignment of random_access_list's
+	//Only use when a and b are same length and b is to be shifted compared to a!
+	random_access_list BitAlign(random_access_list a, random_access_list b, bool Inverse = false, int offset = 0) {
+
+		//Boring setup
+		random_access_list out;
+		SixtyFourBitUnit sfbu_handler;
+		signed long long int working_lower_int, working_higher_int, working_int_top, working_int_bottom, shifted_offset;
+
+		//If aligning for floating point login
+		if (Inverse) {
+
+			for (size_t i = 0; i < a.size(); i++) {
+
+				//Get int's to work with for shifting
+				working_lower_int = b.get(i).LimitedToInt();
+				if (i < b.size()) {
+
+					working_higher_int = b.get(i + 1).LimitedToInt();
+
+				}
+				else {
+
+					working_higher_int = 0;
+
+				};
+
+				shifted_offset = (static_cast<unsigned long long>(1) << offset);
+
+				//Get top and bottom part of the int to align
+				working_int_top = (working_higher_int % shifted_offset) << offset;
+				working_int_bottom = (working_lower_int - (working_lower_int % shifted_offset)) >> offset;
+
+				//Insert to out
+				sfbu_handler.set_mantissa(working_int_top + working_int_bottom);
+				out.push_front(sfbu_handler);
+
+			};
+
+		} //If aligning for standard bitwise operations
+		else {
+
+			for (size_t i = 0; i < b.size(); i++) {
+
+
+				//Get int's to work with for shifting
+				working_lower_int = b.get(i).LimitedToInt();
+				if (i < b.size()) {
+
+					working_higher_int = b.get(i + 1).LimitedToInt();
+
+				}
+				else {
+
+					working_higher_int = 0;
+
+				};
+
+				shifted_offset = (static_cast<unsigned long long>(1) << offset);
+
+				working_int_top = (working_higher_int % shifted_offset) << offset;
+				working_int_bottom = (working_lower_int - (working_lower_int % shifted_offset)) >> offset;
+
+				sfbu_handler.set_mantissa(working_int_top + working_int_bottom);
+				out.push_front(sfbu_handler);
+
+			};
+
+		};
+
+		return out;
+
+	};
+
 	//Why can't I do this like in python?
-	list<random_access_list> Align(random_access_list a=random_access_list(), random_access_list b=random_access_list(), bool Inverse = false, size_t offset = 0) {
+	list<random_access_list> SixtyFourBitUnitAlign(random_access_list a, random_access_list b, bool Inverse = false, size_t offset = 0) {
 
 		//Boring setup
 		list<random_access_list> out = list<random_access_list>();
@@ -500,7 +588,7 @@ private:
 
 	};
 	//DivAlign(self, other, offset=0):
-	list<random_access_list> DivAlign(random_access_list a, random_access_list b, size_t offset = 0) {
+	list<random_access_list> SixtyFourBitUnitDivAlign(random_access_list a, random_access_list b, size_t offset = 0) {
 
 		//Boring setup
 		list<random_access_list> out = list<random_access_list>();
@@ -528,7 +616,7 @@ private:
 };
 
 //High Precision Float -> Proprietary format for arbitrarily high precision floating point numbers (Cringe inferior c++ implementation to the superior python implementation)
-class hpf {
+const class hpf {
 
 public:
 
@@ -537,7 +625,8 @@ public:
 	bool sign, CarryOut, is_zero, CarryIn;
 
 	//__init__(self, mantissa, exponent, sign, co, is_zero):
-	hpf(random_access_list a = random_access_list(), random_access_list b = random_access_list(), bool c = true, bool d = false, bool e = true, bool f = false) {
+	hpf(random_access_list a = random_access_list(), random_access_list b = random_access_list(), 
+		bool c = true, bool d = false, bool e = true, bool f = false) {
 
 		cout << "--Initializing Binary--\n";
 
@@ -550,73 +639,45 @@ public:
 
 	};
 
-	//Boring setter
-	void set_mant(list<SixtyFourBitUnit> a) { Mantissa = a; };
-
-	//Boring getter
-	random_access_list get_mantissa() { return Mantissa; };
-
-	//TODO
-	hpf shift(hpf a, unsigned long long int shifts, bool direction) {
-
-		hpf q;
-
-		
-
-		return q;
-
-	};
-
 	hpf operator + (hpf const& obj) {
 
-		hpf a = *this;
-		hpf b = obj;
+		hpf hpf_handler;
 
 		if (sign == true) {
 
-			if (obj.sign == true) { return this->__pure_add__(obj); };
-			return this->__pure_sub__(obj);
+			if (obj.sign == true) { return hpf_handler.__pure_add__(*this, obj); };
+			return hpf_handler.__pure_sub__(*this, obj);
 
 		};
 
-		if (obj.sign == true) { return b.__pure_sub__(a); }
-		return this->__pure_add__(obj);
+		if (obj.sign == true) { return hpf_handler.__pure_sub__(obj, *this); }
+		return hpf_handler.__pure_add__(*this, obj);
 
 	};
 
 	hpf operator - (hpf const& obj) {
 
-		hpf a = *this;
-		hpf b = obj;
+		hpf hpf_handler;
+
 		hpf out;
 
 		if (sign == true) {
 
-			if (obj.sign == true) { return this->__pure_sub__(obj); };
-			return this->__pure_add__(obj);
+			if (obj.sign == true) { return hpf_handler.__pure_sub__(*this, obj); };
+			return hpf_handler.__pure_add__(*this, obj);
 
 		};
 
 		if (obj.sign == true) { 
 			
-			out = this->__pure_add__(obj); 
+			out = hpf_handler.__pure_add__(*this, obj);
 			out.sign = false;
 			return out;
 		
 		};
-		out = this->__pure_sub__(obj);
+		out = hpf_handler.__pure_sub__(*this, obj);
 		out.sign = not out.sign;
 		return out;
-
-	};
-
-	hpf __float_add__(hpf a, hpf b, bool ci = false) {
-
-		hpf q;
-
-
-
-		return q;
 
 	};
 
@@ -667,10 +728,27 @@ public:
 
 private:
 
+	//Convert encoded exponent value to actual signed exponent value
+	random_access_list GetExponentValue() {
+
+		random_access_list out;
+
+
+
+		return out;
+
+	}
+
+	list<hpf> Align(const hpf a, const hpf b) {
+
+
+
+	};
+
 	//TODO
 	//Propper python gang
 	//def __pure_add__(self, other, ci=False):
-	hpf __pure_add__(hpf a = hpf(), hpf b = hpf(), bool ci = false) {
+	hpf __pure_add__(const hpf a, const hpf b, bool ci = false) {
 
 		hpf out;
 
@@ -680,7 +758,7 @@ private:
 
 	};
 
-	//def __pure_sub__(self, other, ci=False):
+	//def __pure_sub__(self, other, ci=True):
 	hpf __pure_sub__(hpf a = hpf(), hpf b = hpf(), bool ci = true) {
 
 		hpf out;
