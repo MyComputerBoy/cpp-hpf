@@ -113,7 +113,10 @@ public:
 
 	//Propper python gang
 	//def __add__(self, other, ci=False):
-	SixtyFourBitUnit __add__(SixtyFourBitUnit const& a=SixtyFourBitUnit(), SixtyFourBitUnit const& b = SixtyFourBitUnit(), bool ci = false) {
+	SixtyFourBitUnit __add__(
+								SixtyFourBitUnit const& a=SixtyFourBitUnit(), 
+								SixtyFourBitUnit const& b = SixtyFourBitUnit(), 
+								bool ci = false) {
 
 		//Boring setup
 		SixtyFourBitUnit out;
@@ -129,7 +132,10 @@ public:
 	}
 
 	//def __sub__(self, other, ci=True):
-	SixtyFourBitUnit __sub__(SixtyFourBitUnit const& a = SixtyFourBitUnit(), SixtyFourBitUnit const& b = SixtyFourBitUnit(), bool ci = true) {
+	SixtyFourBitUnit __sub__(
+								SixtyFourBitUnit const& a = SixtyFourBitUnit(), 
+								SixtyFourBitUnit const& b = SixtyFourBitUnit(), 
+								bool ci = true) {
 
 		//Boring setup
 		SixtyFourBitUnit out;
@@ -179,8 +185,66 @@ public:
 
 	}
 
+	bool operator==(SixtyFourBitUnit const& other) {
+
+		//Check sign
+		if (this->sign != other.sign) { return false; }
+
+		//Check Mantissa
+		if (this->Mantissa != other.Mantissa) { return false; }
+
+		return false;
+
+	};
+	bool operator!=(SixtyFourBitUnit const& other) {
+
+		//Check sign
+		if (this->sign != other.sign) { return true; }
+
+		//Check Mantissa
+		if (this->Mantissa == other.Mantissa) { return false; }
+
+		return true;
+
+	};
+	bool operator>(SixtyFourBitUnit const& other) {
+
+		//Check sign
+		if (this->sign && !other.sign) { return true; }
+		if (!this->sign && other.sign) { return false; }
+
+		//Check mantissa
+		if (this->Mantissa > other.Mantissa) { return true; }
+
+		return false;
+
+	};
+	bool operator<(SixtyFourBitUnit const& other) {
+
+		//Check sign
+		if (this->sign && !other.sign) { return false; }
+		if (!this->sign && other.sign) { return true; }
+
+		if (this->Mantissa < other.Mantissa) { return true; }
+
+		return false;
+
+	};
+	bool operator>=(SixtyFourBitUnit const& other) {
+
+		if ((*this == other) || (*this > other)) { return true; }
+
+	}; 
+	bool operator<=(SixtyFourBitUnit const& other) {
+
+		if ((*this == other) || (*this < other)) { return true; }
+
+	}
 	//Get variable length bits from mantissa with an offset
-	unsigned long long int GetOffsetBitsFromMantissa(unsigned long long int offset = 0, unsigned long long  int length = 1, bool direction = false) {
+	unsigned long long int GetOffsetBitsFromMantissa(
+														unsigned long long int offset = 0, 
+														unsigned long long  int length = 1, 
+														bool direction = false) {
 
 		//Boring setup
 		unsigned long long int out = 0;
@@ -254,7 +318,10 @@ public:
 	bool co, sign;
 
 	//def __init__(self, data):
-	random_access_list(list<SixtyFourBitUnit> a = list<SixtyFourBitUnit>(), bool b = false, bool c = true) {
+	random_access_list(
+						list<SixtyFourBitUnit> a = list<SixtyFourBitUnit>(), 
+						bool b = false, 
+						bool c = true) {
 
 		cout << "--Initializing Random Access List--\n";
 
@@ -265,13 +332,15 @@ public:
 	};
 
 	//Bitwise and
-	random_access_list __and__(random_access_list a = random_access_list(), random_access_list b = random_access_list()) {
+	random_access_list __and__(
+								random_access_list a = random_access_list(), 
+								random_access_list b = random_access_list()) {
 
 		random_access_list ral;
 		random_access_list out;
-		list<random_access_list> Alligned = ral.SixtyFourBitUnitAlign(a, b);
+		list<random_access_list> Aligned = ral.SixtyFourBitUnitAlign(a, b);
 
-		for (int i = 0; i < Alligned.size(); i++) {
+		for (int i = 0; i < Aligned.size(); i++) {
 
 			out.push_front(a.get(i).__and__(b.get(i)));
 
@@ -281,13 +350,15 @@ public:
 
 	};
 	//Bitwise or
-	random_access_list __or__(random_access_list a = random_access_list(), random_access_list b = random_access_list()) {
+	random_access_list __or__(
+								random_access_list a = random_access_list(), 
+								random_access_list b = random_access_list()) {
 
 		random_access_list ral;
 		random_access_list out;
-		list<random_access_list> Alligned = ral.SixtyFourBitUnitAlign(a, b);
+		list<random_access_list> Aligned = ral.SixtyFourBitUnitAlign(a, b);
 
-		for (int i = 0; i < Alligned.size(); i++) {
+		for (int i = 0; i < Aligned.size(); i++) {
 
 			out.push_front(a.get(i).__or__(b.get(i)));
 
@@ -297,13 +368,15 @@ public:
 
 	};
 	//Bitwise xor
-	random_access_list __xor__(random_access_list a = random_access_list(), random_access_list b = random_access_list()) {
+	random_access_list __xor__(
+								random_access_list a = random_access_list(),
+								random_access_list b = random_access_list()) {
 
 		random_access_list ral;
 		random_access_list out;
-		list<random_access_list> Alligned = ral.SixtyFourBitUnitAlign(a, b);
+		list<random_access_list> Aligned = ral.SixtyFourBitUnitAlign(a, b);
 
-		for (int i = 0; i < Alligned.size(); i++) {
+		for (int i = 0; i < Aligned.size(); i++) {
 
 			out.push_front(a.get(i).__xor__(b.get(i)));
 
@@ -328,7 +401,10 @@ public:
 	};
 	//TODO
 	//Bitwise shift
-	random_access_list __shift__(random_access_list a = random_access_list(), int shifts = 0, bool direction = false) {
+	random_access_list __shift__(
+									random_access_list a = random_access_list(), 
+									int shifts = 0, 
+									bool direction = false) {
 
 		//Boring setup
 		random_access_list ral_handler;
@@ -336,14 +412,14 @@ public:
 		list<random_access_list> AlignedInput;
 		unsigned long long int working_lower_int, working_higher_int, working_int_top, working_int_bottom;
 		unsigned long long int shifted_offset = static_cast<unsigned long long>(1) << shifts;
-		int ulli_removed = shifts >> 6;
+		int unsigned_long_long_int_removed = shifts >> 6;
 
 		//Handle shifts larger than 64
 		if (direction == false) { //If shift down | div 2
-			if (shifts >= 64) { for (int i = 0; i < ulli_removed; i++) { a.pop_front(); shifts -= 64; } }
+			if (shifts >= 64) { for (int i = 0; i < unsigned_long_long_int_removed; i++) { a.pop_front(); shifts -= 64; } }
 		}
 		else { //If shift up | mul 2
-			if (shifts >= 64) { for (int i = 0; i < ulli_removed; i++) { a.push_back(0); shifts -= 64; } }
+			if (shifts >= 64) { for (int i = 0; i < unsigned_long_long_int_removed; i++) { a.push_back(0); shifts -= 64; } }
 		};
 
 		//Perform shift
@@ -477,15 +553,18 @@ public:
 
 	size_t size() { return data.size(); };
 
-	//TODO
 	//def __pure_add__(self, other):
-	random_access_list __pure_add__(random_access_list a = random_access_list(), random_access_list b = random_access_list(), bool ci = false) {
+	random_access_list __pure_add__(
+									random_access_list a = random_access_list(), 
+									random_access_list b = random_access_list(), 
+									bool ci = false, 
+									bool is_float_add = false) {
 
 		random_access_list ral, aligned_a, aligned_b;
 		random_access_list out;
 
 		//Cringe c++ 'must'
-		list<random_access_list> aligned_inp = ral.SixtyFourBitUnitAlign(a, b);
+		list<random_access_list> aligned_inp = ral.SixtyFourBitUnitAlign(a, b, is_float_add);
 		list<random_access_list>::iterator it = aligned_inp.begin();
 
 		//Why can't I just do this like in python?
@@ -514,13 +593,18 @@ public:
 
 	};
 	//def __pure_sub__(self, other):
-	random_access_list __pure_sub__(random_access_list a = random_access_list(), random_access_list b = random_access_list(), bool ci = true, bool using_twos_compliments = true) {
+	random_access_list __pure_sub__(
+									random_access_list a = random_access_list(), 
+									random_access_list b = random_access_list(), 
+									bool ci = true, 
+									bool is_float_sub = false,
+									bool using_twos_compliments = true) {
 
 		random_access_list ral, aligned_a, aligned_b;
 		random_access_list out;
 
 		//Cringe c++ 'must'
-		list<random_access_list> aligned_inp = ral.SixtyFourBitUnitAlign(a, b);
+		list<random_access_list> aligned_inp = ral.SixtyFourBitUnitAlign(a, b, is_float_sub);
 		list<random_access_list>::iterator it = aligned_inp.begin();
 
 		//Why can't I just do this like in python?
@@ -621,18 +705,8 @@ public:
 		};
 
 		temporary = this->__pure_sub__(other);
-		temporary.sign != temporary.sign;
+		temporary.sign = not temporary.sign;
 		return temporary;
-
-	};
-
-	random_access_list __flaot_add__(random_access_list a, random_access_list b, bool ci = false) {
-
-		random_access_list out;
-
-
-
-		return out;
 
 	};
 private:
@@ -662,11 +736,15 @@ private:
 	//TODO
 	//Bit-precise alignment of random_access_list's
 	//Only use when a and b are same length and b is to be shifted compared to a!
-	random_access_list BitAlign(random_access_list a, random_access_list b, bool Inverse = false, int offset = 0) {
+	random_access_list BitAlign(
+								random_access_list a,
+								random_access_list b, 
+								bool Inverse = false, 
+								int offset = 0) {
 
 		//Boring setup
 		random_access_list out;
-		SixtyFourBitUnit sfbu_handler;
+		SixtyFourBitUnit SixtyFourBitUnit_handler;
 		signed long long int working_lower_int, working_higher_int, working_int_top, working_int_bottom;
 		signed long long int shifted_offset = (static_cast<unsigned long long>(1) << offset);
 
@@ -694,8 +772,8 @@ private:
 				working_int_bottom = working_lower_int >> offset;
 
 				//Insert to out
-				sfbu_handler.set_mantissa(working_int_top + working_int_bottom);
-				out.push_front(sfbu_handler);
+				SixtyFourBitUnit_handler.set_mantissa(working_int_top + working_int_bottom);
+				out.push_front(SixtyFourBitUnit_handler);
 
 			};
 
@@ -721,8 +799,8 @@ private:
 				working_int_top = (working_higher_int % shifted_offset) << (63-offset);
 				working_int_bottom = working_lower_int >> offset;
 
-				sfbu_handler.set_mantissa(working_int_top + working_int_bottom);
-				out.push_front(sfbu_handler);
+				SixtyFourBitUnit_handler.set_mantissa(working_int_top + working_int_bottom);
+				out.push_front(SixtyFourBitUnit_handler);
 
 			};
 
@@ -733,7 +811,11 @@ private:
 	};
 
 	//Why can't I do this like in python?
-	list<random_access_list> SixtyFourBitUnitAlign(random_access_list a, random_access_list b, bool Inverse = false, size_t offset = 0) {
+	list<random_access_list> SixtyFourBitUnitAlign(
+													random_access_list a, 
+													random_access_list b,
+													bool Inverse = false, 
+													size_t offset = 0) {
 
 		//Boring setup
 		list<random_access_list> out = list<random_access_list>();
@@ -779,7 +861,10 @@ private:
 
 	};
 	//DivAlign(self, other, offset=0):
-	list<random_access_list> SixtyFourBitUnitDivAlign(random_access_list a, random_access_list b, size_t offset = 0) {
+	list<random_access_list> SixtyFourBitUnitDivAlign(
+														random_access_list a, 
+														random_access_list b, 
+														size_t offset = 0) {
 
 		//Boring setup
 		list<random_access_list> out = list<random_access_list>();
@@ -806,18 +891,27 @@ private:
 	
 };
 
-//High Precision Float -> Proprietary format for arbitrarily high precision floating point numbers (Cringe inferior c++ implementation to the superior python implementation)
+/*High Precision Float->Proprietary format for
+  arbitrarily high precision floating point numbers 
+  (Cringe inferior c++ implementation to the superior python implementation)*/
 const class hpf {
 
 public:
 
-	//Arbitrarily long mantissa and exponent, based off of the idea of the ieee 754 floating point standard, but expanded with arbitrarily high precision and large numbers
+	/*Arbitrarily long mantissa and exponent, based off of
+	  the idea of the ieee 754 floating point standard, 
+	  but expanded with arbitrarily high precision and large numbers*/
 	random_access_list Mantissa, Exponent;
 	bool sign, CarryOut, is_zero, CarryIn;
 
 	//__init__(self, mantissa, exponent, sign, co, is_zero):
-	hpf(random_access_list a = random_access_list(), random_access_list b = random_access_list(), 
-		bool c = true, bool d = false, bool e = true, bool f = false) {
+	hpf(
+		random_access_list a = random_access_list(), 
+		random_access_list b = random_access_list(), 
+		bool c = true, 
+		bool d = false, 
+		bool e = true, 
+		bool f = false) {
 
 		cout << "--Initializing Binary--\n";
 
@@ -917,9 +1011,43 @@ public:
 
 	};
 
+	bool operator==(hpf const& other) {
+
+		//Check is_zero flags
+		if (this->is_zero != other.is_zero) { return false; }
+
+		random_access_list a_list = this->Mantissa;
+		random_access_list b_list = other.Mantissa;
+
+		for (size_t i = 0; i < this->Mantissa.size(); i++) {
+
+			if (a_list.get(i) != b_list.get(i)) { return false; }
+
+		};
+
+		return true;
+
+	};
+	bool operator!=(hpf const& other) {
+
+		//Check is_zero flags
+		if (this->is_zero != other.is_zero) { return true; }
+
+		random_access_list a_list = this->Mantissa;
+		random_access_list b_list = other.Mantissa;
+
+		for (size_t i = 0; i < this->Mantissa.size(); i++) {
+
+			if (a_list.get(i) != b_list.get(i)) { return true; }
+
+		};
+
+		return false;
+
+	};
+
 private:
 
-	//TODO
 	//Convert encoded exponent value to actual signed exponent value
 	random_access_list GetExponentValue() {
 
@@ -935,12 +1063,13 @@ private:
 
 		return out;
 
-	}
+	};
 
 	//TODO
 	list<hpf> Align(const hpf a, const hpf b) {
 
 		list<hpf> out;
+
 
 
 		return out;
@@ -978,6 +1107,8 @@ int main() {
 	hpf a = hpf();
 
 	cout << "\n----------------------------------\nC++: High Precision Floating point\n";
+
+	cout << "a: " << a.__str__();
 
 	return 0;
 
